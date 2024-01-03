@@ -1,13 +1,33 @@
+"use client";
 import {
   FaFacebookF,
   FaLinkedinIn,
   FaGoogle,
   FaEnvelope,
+  FaEye,
+  FaEyeSlash,
 } from "react-icons/fa";
 import { MdLock } from "react-icons/md";
 import Head from "next/head";
+import React, { useState } from "react";
 
 export default function Home() {
+  const [inputValue, setInputValue] = useState("");
+  var show = false;
+  // const checkInput = (event) => {
+  //   const value = event.target.value;
+  //   if (!value) console.log("flase");
+  //   else console.log("true");
+  // };
+  const handleInputChange = (event) => {
+    const value = event.target.value;
+    setInputValue(value);
+  };
+
+  const toggleVisibility = () => {
+    show = !show;
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-gray-100">
       <Head>
@@ -63,9 +83,12 @@ export default function Home() {
                   <input
                     type="password"
                     name="password"
+                    value={inputValue}
                     placeholder="Password"
-                    className="bg-gray-100 outline-none text-sm flex-1"
+                    className="bg-gray-100 outline-none text-sm flex-1 w-1/2"
+                    onchange={handleInputChange}
                   />
+                  <FaEye className="text-gray-400 text-xs m-2" />
                 </div>
                 <div className="flex justify-between w-64 mb-5">
                   <label className="flex item-center text-xs">
