@@ -9,11 +9,14 @@ import {
 } from "react-icons/fa";
 import { MdLock } from "react-icons/md";
 import Head from "next/head";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function Home() {
   const [inputValue, setInputValue] = useState("");
   var show = false;
+  useEffect(() => {
+    console.log(inputValue);
+  });
   // const checkInput = (event) => {
   //   const value = event.target.value;
   //   if (!value) console.log("flase");
@@ -86,7 +89,7 @@ export default function Home() {
                     value={inputValue}
                     placeholder="Password"
                     className="bg-gray-100 outline-none text-sm flex-1 w-1/2"
-                    onchange={handleInputChange}
+                    onChange={handleInputChange}
                   />
                   <FaEye className="text-gray-400 text-xs m-2" />
                 </div>
