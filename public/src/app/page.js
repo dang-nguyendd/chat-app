@@ -1,5 +1,4 @@
 "use client";
-import * as Yup from "yup";
 import {
   FaFacebookF,
   FaLinkedinIn,
@@ -10,79 +9,23 @@ import {
 } from "react-icons/fa";
 import { MdLock } from "react-icons/md";
 import Head from "next/head";
-import React, { useState, useEffect } from "react";
-
-const validationSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("Invalid email address")
-    .required("Email is required"),
-  password: Yup.string()
-    .min(6, "Password must be at least 6 characters")
-    .required("Password is required"),
-});
+import React, { useState } from "react";
 
 export default function Home() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [eye, setEye] = useState(false);
-  const [eyeSlash, setEyeSlash] = useState(false);
-  const [show, setShow] = useState(false);
-
-  useEffect(() => {
-    console.log("Email: ", email);
-  }, [email]);
-
-  useEffect(() => {
-    console.log("Password: ", password);
-    if (!password) {
-      setEye(false);
-      setEyeSlash(false);
-      setShow(false);
-    } else {
-      setEye(true);
-    }
-  }, [password]);
-
-  const handleEmailChange = (event) => {
+  const [inputValue, setInputValue] = useState("");
+  var show = false;
+  // const checkInput = (event) => {
+  //   const value = event.target.value;
+  //   if (!value) console.log("flase");
+  //   else console.log("true");
+  // };
+  const handleInputChange = (event) => {
     const value = event.target.value;
-    setEmail(value);
+    setInputValue(value);
   };
 
-  const handlePasswordChange = (event) => {
-    const value = event.target.value;
-    setPassword(value);
-  };
-
-  const handleEyeChange = () => {
-    setShow(!show);
-    setEye(!eye);
-    setEyeSlash(!eyeSlash);
-  };
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    validationSchema
-      .validate({ email, password }, { abortEarly: false })
-      .then(() => {
-        const values = { email, password };
-        // Handle form submission logic here
-        console.log(values);
-      })
-      .catch((validationErrors) => {
-        // Validation failed
-        if (validationErrors instanceof Yup.ValidationError) {
-          const errors = {};
-
-          validationErrors.inner.forEach((error) => {
-            errors[error.path] = error.message;
-          });
-
-          console.log("Validation failed with errors:", errors);
-          alert(Object.values(errors)[0]);
-        } else {
-          // Handle non-validation errors
-          console.error("Non-validation error occurred:", validationErrors);
-        }
-      });
+  const toggleVisibility = () => {
+    show = !show;
   };
 
   return (
@@ -131,38 +74,21 @@ export default function Home() {
                   <input
                     type="email"
                     name="email"
-                    value={email}
                     placeholder="Email"
                     className="bg-gray-100 outline-none text-sm flex-1"
-                    onChange={handleEmailChange}
                   />
                 </div>
                 <div className="bg-gray-100 w-64 p-2 flex items-center mb-3">
                   <MdLock className="text-gray-400 m-2" />
                   <input
-                    type={show ? "text" : "password"}
+                    type="password"
                     name="password"
-                    value={password}
+                    value={inputValue}
                     placeholder="Password"
                     className="bg-gray-100 outline-none text-sm flex-1 w-1/2"
-                    onChange={handlePasswordChange}
+                    onchange={handleInputChange}
                   />
-                  <FaEye
-                    className="text-gray-400 text-xs m-2"
-                    style={{
-                      visibility: eye ? "visible" : "hidden",
-                      display: eye ? "initial" : "none",
-                    }}
-                    onClick={handleEyeChange}
-                  />
-                  <FaEyeSlash
-                    className="text-gray-400 text-xs m-2"
-                    style={{
-                      visibility: eyeSlash ? "visible" : "hidden",
-                      display: eyeSlash ? "initial" : "none",
-                    }}
-                    onClick={handleEyeChange}
-                  />
+                  <FaEye className="text-gray-400 text-xs m-2" />
                 </div>
                 <div className="flex justify-between w-64 mb-5">
                   <label className="flex item-center text-xs">
@@ -176,7 +102,6 @@ export default function Home() {
                 <a
                   href="#"
                   className="border-2 border-green-700 text-green-700 rounded-full px-12 py-2 inline-block font-semibold hover:bg-green-700 hover:text-white"
-                  onClick={handleSubmit}
                 >
                   Sign In
                 </a>
